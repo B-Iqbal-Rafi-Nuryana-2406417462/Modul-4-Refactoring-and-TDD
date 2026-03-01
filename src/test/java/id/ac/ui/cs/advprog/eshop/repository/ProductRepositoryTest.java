@@ -107,7 +107,7 @@ public class ProductRepositoryTest {
         updatedProduct.setProductName("Sabun Cuci Piring Ultra");
         updatedProduct.setProductQuantity(100);
 
-        Product savedProduct = productRepository.save(updatedProduct);
+        Product savedProduct = productRepository.update(updatedProduct.getProductId(), updatedProduct);
         assertNotNull(savedProduct);
         assertEquals("Sabun Cuci Piring Ultra", savedProduct.getProductName());
         assertEquals(100, savedProduct.getProductQuantity());
@@ -124,7 +124,7 @@ public class ProductRepositoryTest {
         updatedProduct.setProductName("Produk Tidak Ada");
         updatedProduct.setProductQuantity(1);
 
-        Product savedProduct = productRepository.save(updatedProduct);
+        Product savedProduct = productRepository.update(updatedProduct.getProductId(), updatedProduct);
 
         assertNull(savedProduct);
         assertNull(productRepository.findById("P404"));
@@ -138,7 +138,7 @@ public class ProductRepositoryTest {
         product.setProductQuantity(10);
         productRepository.create(product);
 
-        productRepository.deleteProduct("P999");
+        productRepository.deleteById("P999");
 
         assertNull(productRepository.findById("P999"));
     }
@@ -151,7 +151,7 @@ public class ProductRepositoryTest {
         product.setProductQuantity(5);
         productRepository.create(product);
 
-        productRepository.deleteProduct("P999");
+        productRepository.deleteById("P999");
 
         Product stillThere = productRepository.findById("P111");
         assertNotNull(stillThere);
