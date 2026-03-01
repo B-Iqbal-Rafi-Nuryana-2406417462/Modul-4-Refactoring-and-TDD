@@ -11,6 +11,8 @@
     <rule ref="category/java/codestyle.xml">
         <exclude name="UnnecessaryConstructor"/>
         <exclude name="AtLeastOneConstructor"/>
+        <exclude name="ShortClassName"/>
+        <exclude name="ShortVariable"/>
     </rule>
     <rule ref="category/java/design.xml"/>
     <rule ref="category/java/errorprone.xml"/>

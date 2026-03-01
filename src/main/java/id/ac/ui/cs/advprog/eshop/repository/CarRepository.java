@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Car;
-import id.ac.ui.cs.advprog.eshop.util.IdGenerator;
 import org.springframework.stereotype.Repository;
 
 
@@ -10,17 +9,17 @@ import org.springframework.stereotype.Repository;
 public class CarRepository extends AbstractInMemoryRepository<Car>{
 
     @Override
-    protected String getId(Car car) {
+    protected String getId(final Car car) {
         return car.getCarId();
     }
 
     @Override
-    protected void setId(Car car, String id) {
+    protected void setId(final Car car,final String id) {
         car.setCarId(id);
     }
 
     @Override
-    protected void copyField(Car existingCar, Car updatedCar) {
+    protected void copyField(final Car existingCar, final Car updatedCar) {
         existingCar.setCarName(updatedCar.getCarName());
         existingCar.setCarColor(updatedCar.getCarColor());
         existingCar.setCarQuantity(updatedCar.getCarQuantity());

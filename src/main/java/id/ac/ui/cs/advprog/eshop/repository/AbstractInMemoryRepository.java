@@ -15,7 +15,7 @@ public abstract class AbstractInMemoryRepository<T> implements BaseRepository<T>
     protected abstract void copyField(T existingItem, T updatedItem);
 
     @Override
-    public T create(T item){
+    public T create(final T item){
         if (getId(item) == null){
             setId(item, IdGenerator.generateId());
         }
@@ -29,27 +29,24 @@ public abstract class AbstractInMemoryRepository<T> implements BaseRepository<T>
     }
 
     @Override
-    public T findById(String id){
-        for (T item : dataStore){
-            if (getId(item).equals(id)){
-                return item;
-            }
-        }
-        return null;
+    public T findById(final String id){
+        return dataStore.stream()
+                .filter(item -> id.equals(getId(item)))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
-    public T update(String id, T updatedItem){
-        T existingItem = findById(id);
+    public T update(final String id, final T updatedItem){
+        final T existingItem = findById(id);
         if (existingItem != null){
             copyField(existingItem, updatedItem);
-            return existingItem;
         }
-        return null;
+        return existingItem;
     }
 
     @Override
-    public void deleteById(String id){
+    public void deleteById(final String id){
         dataStore.removeIf(item -> getId(item).equals(id));
     }
 }
