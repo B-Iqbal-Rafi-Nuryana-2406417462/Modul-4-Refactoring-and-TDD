@@ -4,15 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum OrderStatus {
-    WAITING_PAYMENT("WAITING PAYMENT"),
+    WAITING_PAYMENT("WAITING_PAYMENT"),
     FAILED("FAILED"),
     SUCCESS("SUCCESS"),
     CANCELLED("CANCELLED");
 
-    private final String status;
+    private final String value;
 
     private OrderStatus(String value) {
-        this.status = value;
+        this.value = value;
     }
 
     public static boolean contains(String param){
