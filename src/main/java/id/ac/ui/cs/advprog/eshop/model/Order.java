@@ -9,13 +9,13 @@ import java.util.List;
 @Builder
 @Getter
 public class Order {
-    String id;
-    List<Product> products;
-    Long orderTime;
-    String author;
-    String status;
+    private String id;
+    private List<Product> products;
+    private Long orderTime;
+    private String author;
+    private String status;
 
-    public Order(String id, List<Product> products, Long orderTime, String author){
+    public Order(final String id, final List<Product> products, final Long orderTime, final String author){
         this.id = id;
         this.orderTime = orderTime;
         this.author = author;
@@ -28,12 +28,16 @@ public class Order {
         }
     }
 
-    public Order(String id, List<Product> products, Long orderTime, String author, String status){
+    public Order(final String id,final List<Product> products,final Long orderTime,final String author,final String status){
         this(id,products,orderTime,author);
-        this.setStatus(status);
+        if (OrderStatus.contains(status)){
+            this.status = status;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
-    public void setStatus(String status){
+    public void setStatus(final String status){
         if (OrderStatus.contains(status)){
             this.status = status;
         } else {

@@ -11,16 +11,18 @@ public enum OrderStatus {
 
     private final String value;
 
-    private OrderStatus(String value) {
+    OrderStatus(final String value) {
         this.value = value;
     }
 
-    public static boolean contains(String param){
-        for (OrderStatus orderStatus : OrderStatus.values()){
+    public static boolean contains(final String param){
+        boolean isContains = false;
+        for (final OrderStatus orderStatus : values()){
             if (orderStatus.name().equals(param)) {
-                return true;
+                isContains = true;
+                break;
             }
         }
-        return false;
+        return isContains;
     }
 }
