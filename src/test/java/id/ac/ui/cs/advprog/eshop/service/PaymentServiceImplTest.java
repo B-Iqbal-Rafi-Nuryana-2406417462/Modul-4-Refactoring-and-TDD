@@ -128,4 +128,70 @@ public class PaymentServiceImplTest {
         assertTrue(result.isEmpty());
     }
 
+    @Test
+    void testAddPaymentVoucherCodeValidReturnsSuccess() {
+        Map<String, String> data = new HashMap<>();
+        data.put("voucherCode", "ESHOP1234ABC5678");
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "VOUCHER_CODE", data);
+
+        assertEquals("SUCCESS", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentVoucherCodeTooShortReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("voucherCode", "ESHOP123ABC");     // only 11 chars
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "VOUCHER_CODE", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentVoucherCodeWrongPrefixReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("voucherCode", "WRONG1234ABC5678");  // 16 chars, wrong prefix
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "VOUCHER_CODE", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentVoucherCodeInsufficientDigitsReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("voucherCode", "ESHOP1234ABCDEFG");  // 16 chars, only 4 digits
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "VOUCHER_CODE", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentVoucherCodeNullReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("voucherCode", null);
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "VOUCHER_CODE", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentVoucherCodeEmptyReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("voucherCode", "");
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "VOUCHER_CODE", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
 }
