@@ -77,6 +77,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     private String validateBankTransfer(final Map<String, String> data) {
+
         if (isNullOrEmpty(data.get("bankName"))) {
             return PaymentStatus.REJECTED.getValue();
         }
