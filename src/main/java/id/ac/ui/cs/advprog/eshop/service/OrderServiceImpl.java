@@ -15,7 +15,7 @@ public class OrderServiceImpl implements OrderService{
     private OrderRepository orderRepository;
 
     @Override
-    public Order createOrder(Order order){
+    public Order createOrder(final Order order){
         if (orderRepository.findById(order.getId()) == null){
             orderRepository.save(order);
             return order;
@@ -24,10 +24,10 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order updateStatus(String orderId, String status){
-        Order order = orderRepository.findById(orderId);
+    public Order updateStatus(final String orderId,final String status){
+        final Order order = orderRepository.findById(orderId);
         if (order != null){
-            Order newOrder = new Order(order.getId(), order.getProducts(), order.getOrderTime(), order.getAuthor(), status);
+            final Order newOrder = new Order(order.getId(), order.getProducts(), order.getOrderTime(), order.getAuthor(), status);
             orderRepository.save(newOrder);
             return newOrder;
         } else {
@@ -37,12 +37,12 @@ public class OrderServiceImpl implements OrderService{
 
 
     @Override
-    public Order findById(String orderId){
+    public Order findById(final String orderId){
         return orderRepository.findById(orderId);
     }
 
     @Override
-    public List<Order> findAllByAuthor(String author){
+    public List<Order> findAllByAuthor(final String author){
         return orderRepository.findAllByAuthor(author);
     }
 }

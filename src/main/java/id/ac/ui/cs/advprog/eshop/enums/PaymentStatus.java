@@ -7,13 +7,15 @@ public enum PaymentStatus {
 
     private final String value;
 
-    PaymentStatus(String value) { this.value = value; }
+    PaymentStatus(final String value) { this.value = value; }
 
     public String getValue() { return value; }
 
-    public static boolean contains(String status) {
-        for (PaymentStatus ps : values()) {
-            if (ps.value.equals(status)) return true;
+    public static boolean contains(final String status) {
+        for (final PaymentStatus ps : values()) {
+            if (ps.value.equals(status)) {
+                return true;
+            }
         }
         return false;
     }

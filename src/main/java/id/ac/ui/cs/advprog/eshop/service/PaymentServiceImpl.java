@@ -32,14 +32,17 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment setStatus(final Payment payment, final String status) {
         payment.setStatus(status);
-
-        if (PaymentStatus.SUCCESS.getValue().equals(status)) {
-            payment.getOrder().setStatus(PaymentStatus.SUCCESS.getValue());
-        } else if (PaymentStatus.REJECTED.getValue().equals(status)) {
-            payment.getOrder().setStatus(OrderStatus.FAILED.getValue());
-        }
-
+        updateOrderStatus(payment, status);
         return paymentRepository.save(payment);
+    }
+
+    private void updateOrderStatus(final Payment payment, final String status) {
+        final Order order = payment.getOrder();
+        if (PaymentStatus.SUCCESS.getValue().equals(status)) {
+            order.setStatus(PaymentStatus.SUCCESS.getValue());
+        } else if (PaymentStatus.REJECTED.getValue().equals(status)) {
+            order.setStatus(OrderStatus.FAILED.getValue());
+        }
     }
 
     @Override
@@ -69,8 +72,8 @@ public class PaymentServiceImpl implements PaymentService {
         if (!code.startsWith("ESHOP")) {
             return PaymentStatus.REJECTED.getValue();
         }
-        final long digitCount = code.chars().filter(Character::isDigit).count();
-        if (digitCount != 8) {
+        final int digitCount = 8;
+        if (code.chars().filter(Character::isDigit).count() != digitCount) {
             return PaymentStatus.REJECTED.getValue();
         }
         return PaymentStatus.SUCCESS.getValue();
