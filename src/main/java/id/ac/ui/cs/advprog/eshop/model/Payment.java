@@ -1,13 +1,15 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
+
 import java.util.Map;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter @Setter
 public class Payment {
-    private static final Set<String> VALID_STATUSES = Set.of("PENDING", "SUCCESS", "REJECTED");
 
     private final String id;
     private final String method;
@@ -29,7 +31,7 @@ public class Payment {
     }
 
     public void setStatus(String status) {
-        if (status == null || !VALID_STATUSES.contains(status)) {
+        if (!PaymentStatus.contains(status)) {
             throw new IllegalArgumentException("Invalid payment status: " + status);
         }
         this.status = status;
