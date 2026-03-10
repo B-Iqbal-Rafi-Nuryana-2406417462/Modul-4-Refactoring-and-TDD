@@ -24,6 +24,8 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment addPayment(final Order order, final String method, final Map<String, String> paymentData) {
         final String id = UUID.randomUUID().toString();
         final Payment payment = new Payment(id, method, paymentData, order);
+        String status = determineStatus(method,paymentData);
+        payment.setStatus(status);
         return paymentRepository.save(payment);
     }
 
@@ -48,5 +50,23 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<Payment> getAllPayments() {
         return paymentRepository.findAll();
+    }
+
+    private String determineStatus(String method, Map<String, String> paymentData) {
+        if ("VOUCHER_CODE".equals(method)) {
+            return validateVoucherCode(paymentData.get("voucherCode"));
+        }
+        if ("BANK_TRANSFER".equals(method)) {
+            // TODO : Implement bank transfer
+        }
+        return "PENDING";
+    }
+
+    private String validateVoucherCode(String code) {
+        if (code == null || code.length() != 16) return "REJECTED";
+        if (!code.startsWith("ESHOP")) return "REJECTED";
+        long digitCount = code.chars().filter(Character::isDigit).count();
+        if (digitCount != 8) return "REJECTED";
+        return "SUCCESS";
     }
 }
