@@ -47,3 +47,15 @@ Exercise 3
 - LSP : Mengganti subclass bisa merusak fungsionalitas jika subclass tidak benar-benar menggantikan superclass, sehingga membuat kode menjadi tidak stabil.
 - ISP : Controller bisa bergantung pada method yang tidak relevan, sehingga membuat kode menjadi sulit untuk dipahami dan digunakan.
 - DIP : Controller bergantung pada implementasi konkret, sehingga sulit untuk melakukan testing dan maintenance karena setiap perubahan pada implementasi konkret bisa mempengaruhi Controller.
+
+Reflection 4
+1. Alur TDD dalam latihan ini cukup berguna, namun belum sepenuhnya diterapkan. Berdasarkan pertanyaan reflektif Percival:
+Yang berjalan baik:
+- Menulis test seperti testUpdateStatusInvalidStatus memaksa saya berpikir tentang edge case sebelum implementasi
+- Test testUpdateStatusInvalidStatus mengungkap bahwa OrderServiceImpl.updateStatus() tidak memvalidasi status. Test mengharapkan IllegalArgumentException namun service tidak melemparnya, artinya test berhasil mendeteksi fitur yang belum diimplementasi.
+- Test berfungsi sebagai dokumentasi hidup tentang perilaku yang diharapkan (misal: createOrder mengembalikan null jika sudah ada)
+Yang belum optimal:
+- Beberapa test seperti testCreateOrder hanya memverifikasi bahwa save dipanggil sekali, tanpa menguji logika bisnis yang bermakna, mengindikasikan test ditulis setelah implementasi
+- Lain kali: tulis test yang gagal terlebih dahulu, jalankan untuk konfirmasi kegagalan, baru implementasi minimal untuk membuatnya lulus, lalu refactor
+
+    
