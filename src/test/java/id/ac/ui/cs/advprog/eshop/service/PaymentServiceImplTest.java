@@ -194,4 +194,76 @@ public class PaymentServiceImplTest {
         assertEquals("REJECTED", result.getStatus());
     }
 
+    @Test
+    void testAddPaymentBankTransferValidReturnsSuccess() {
+        Map<String, String> data = new HashMap<>();
+        data.put("bankName", "BCA");
+        data.put("referenceCode", "REF-123456");
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", data);
+
+        assertEquals("SUCCESS", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentBankTransferEmptyBankNameReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("bankName", "");
+        data.put("referenceCode", "REF-123456");
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentBankTransferNullBankNameReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("bankName", null);
+        data.put("referenceCode", "REF-123456");
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentBankTransferEmptyReferenceCodeReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("bankName", "BCA");
+        data.put("referenceCode", "");
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentBankTransferNullReferenceCodeReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("bankName", "BCA");
+        data.put("referenceCode", null);
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
+    @Test
+    void testAddPaymentBankTransferBothNullReturnsRejected() {
+        Map<String, String> data = new HashMap<>();
+        data.put("bankName", null);
+        data.put("referenceCode", null);
+        when(paymentRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", data);
+
+        assertEquals("REJECTED", result.getStatus());
+    }
+
 }
